@@ -85,12 +85,35 @@ def task_3(card_data, score_data, review_data):
 def task_4(pass_threshold):
     """Изменение порога для успешного выполнения задания (например, с 3 баллов на 2) и показ студентов, у которых
        после этого появится или пропадёт зачёт."""
-    pass
+    if not (0 <= pass_threshold <= 5):
+        print(f"некорректное значение порога: {pass_threshold}")
+        return
+
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    cursor.execute("""SELECT * FROM solution WHERE IF(score >= %s, 'T', 'F') != has_pass """, [pass_threshold])
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    for elem in data:
+        print(*elem)
+
+
+def task_5():
+    """Удаление информации о студентах, не получивших зачёт."""
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM solutions WHERE has_pass = 'F' ")
+
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 
 def main():
-    #     Удаление информации о студентах, не получивших зачёт.
-
     task_1()
     print()
     task_2(762016, "Текст ответа")
@@ -99,8 +122,9 @@ def main():
     task_3(762016, 3.4, "коммент")
     task_3(762016, 5.4, "коммент")
     print()
+    task_4(3)
+    task_5()
 
-    task_4(4)
 
 if __name__ == '__main__':
     main()
