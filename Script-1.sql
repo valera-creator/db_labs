@@ -81,7 +81,7 @@ LIMIT 5
 -- задание 8:
 -- Подсчитать число женщин, которые когда-либо являлись руководителям отделов.
 SELECT COUNT (DISTINCT employees.emp_no) AS count_woman FROM employees
-JOIN dept_emp
+JOIN dept_manager
 ON employees.emp_no = dept_emp.emp_no
 WHERE employees.gender = 'F'
 
