@@ -9,12 +9,14 @@ ORDER BY Region;
 
 -- Вывод списка названий стран (упорядоченных по алфавиту), общего числа городов в них и числа городов с населением больше 500 тысяч человек. 
 -- Если в стране нет городов с населением более 500 тысяч человек, нужно вывести 0. Подсказка: используйте функцию COALESCE.
+USE ValeriiLarionovWorld;
+
 SELECT
 	Country.Name as Country,
 	COUNT(City.Name) as City,
 	COALESCE(SUM(CASE WHEN City.Population > 500000 THEN 1 END), 0) as City_big_500000
 FROM
-	City LEFT JOIN Country
+	Country LEFT JOIN City
 		ON City.CountryCode = Country.Code
 GROUP BY Country.Name
 ORDER BY Country.Name;
