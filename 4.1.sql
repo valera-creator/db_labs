@@ -2,7 +2,7 @@ USE ValeriiLarionovWorld;
 
 -- Вывод списка регионов (упорядоченных по алфавиту) с указанием числа городов в них.
 SELECT Country.Region as Region, COUNT(City.Name) as Cities FROM
-City JOIN Country
+Country LEFT JOIN City
 ON City.CountryCode = Country.Code
 GROUP BY Region
 ORDER BY Region;
